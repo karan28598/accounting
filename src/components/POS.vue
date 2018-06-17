@@ -20,6 +20,11 @@
                               <strong>Create Invoice</strong>
                           </button>
                         </div>
+                        <br>
+                        <div class="row">
+                            <billing></billing>
+                            <checkout></checkout>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="row">
@@ -27,8 +32,8 @@
                                 <h6>Item Select</h6>
                                 <frappe-control
                                     :docfield="itemDocfield"
-                                    :value="palue"
-                                    @change="palue => updateValue(docfield.fieldname, palue)"
+                                    :value="i_value"
+                                    @change="i_value => updateValue(this.itemDocfield.fieldname, i_value)"
                                     :onlyInput="true"
                                 />
                             </div>
@@ -43,6 +48,8 @@
 </template>
 <script>
 import Transaction from "./Transaction";
+import Billing from "./Billing";
+import Checkout from "./Checkout";
 import ItemList from "./ItemList";
 import frappe from "frappejs";
 import FrappeControl from './controls/FrappeControl';
@@ -50,7 +57,9 @@ import FrappeControl from './controls/FrappeControl';
 export default {
   components: {
     Transaction,
-    ItemList
+    ItemList,
+    Billing,
+    Checkout
   },
   data() {
     this.customerDocfield={
