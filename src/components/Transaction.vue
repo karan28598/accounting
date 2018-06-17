@@ -17,7 +17,7 @@
                         <input v-if="item.editing" @blur="toggleEdit(item)" type="number" v-model="item.numberOfItems">
                     </td>
                     <td>{{ item.numberOfItems * item.item.rate }}</td>
-                    <td><a class="fa fa-times" @click="removeItem(item)">X</a></td>
+                    <td><a class="fa fa-times" @click="removeItem(item)">x</a></td>
                 </tr>
             </tbody>
         </table>
@@ -27,15 +27,15 @@
             <tbody>
                 <tr>
                     <td>Subtotal:</td>
-                    <td>{{ subtotal }}</td>
+                    <td>{{ grandTotal }}</td>
                 </tr>
                 <tr>
                     <td>Tax:</td>
-                    <td>{{ tax }}</td>
+                    <td>{{ grandTotal-netTotal }}</td>
                 </tr>
                 <tr>
                     <td>Total:</td>
-                    <td>{{ total }}</td>
+                    <td>{{ grandTotal }}</td>
                 </tr>
             </tbody>
         </table>
@@ -45,22 +45,22 @@
 <script>
 
 export default {
-    props: ['items', 'edit', 'remove'],
+    props: ['items', 'edit', 'remove', 'grandTotal', 'netTotal'],
     computed: {
         subtotal: function() {
-            var subtotal = 0;
+            // var subtotal = 0;
 
-            this.items.forEach(function(item) {
-                subtotal += item.item.rate * item.numberOfItems;
-            });
+            // this.items.forEach(function(item) {
+            //     subtotal += item.item.rate * item.numberOfItems;
+            // });
 
-            return subtotal;
+            return this.netTotal;
         },
         tax: function() {
-            return this.subtotal * 0.065;
+            return this.grandTotal-this.netTotal;
         },
         total: function() {
-            return this.subtotal + this.tax;
+            return this.grandTotal;
         }
     },
     methods: {

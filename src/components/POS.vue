@@ -14,7 +14,7 @@
                         />
                         <br>
                         <br>
-                        <transaction :items="lineItems" :edit="toggleEdit" :remove="removeItem" ></transaction>
+                        <transaction :grandTotal="this.grandTotal" :netTotal="this.netTotal" :items="lineItems" :edit="toggleEdit" :remove="removeItem"></transaction>
                         <div class="list-group">
                           <button class="list-group-item item" @click="createInvoice()">
                               <strong>Create Invoice</strong>
@@ -71,15 +71,15 @@ export default {
     };
   },
   async created(){ 
-  this.items=await frappe.db.getAll({
-          doctype: "Item",
-          fields: ["name", "rate"],
-        });
-      this.grandTotal=0;
-      this.netTotal=0;
-  /*this.items=it.filter(function(el) {
-      return el.name.toLowerCase().indexOf(this.itemfilter.toLowerCase()) > -1;
-      })*/
+    this.items=await frappe.db.getAll({
+            doctype: "Item",
+            fields: ["name", "rate"],
+          });
+    this.grandTotal=0;
+    this.netTotal=0;
+    /*this.items=it.filter(function(el) {
+        return el.name.toLowerCase().indexOf(this.itemfilter.toLowerCase()) > -1;
+    })*/
   },
   methods: {
     onItemClick: function(item) {
@@ -99,9 +99,11 @@ export default {
       }
       this.tempInvoice();
     },
+
     toggleEdit: function(lineItem) {
       lineItem.editing = !lineItem.editing;
     },
+
     removeItem: function(lineItem) {
       for (var i = 0; i < this.lineItems.length; i++) {
         if (this.lineItems[i] === lineItem) {
@@ -111,13 +113,14 @@ export default {
       }
       this.tempInvoice();
     },
+
     updateValue(field, value) {
-                  this.value = value;
-                },
+      this.value = value;
+    },
+
     async tempInvoice(){
       var temp_item=[];
-      for(var i=0;i<this.lineItems.length;i++)
-      {
+      for(var i = 0; i < this.lineItems.length; i++){
         console.log(this.lineItems[i].item.name+" "+this.lineItems[i].numberOfItems);
         var temp={
           item:this.lineItems[i].item.name,
@@ -130,32 +133,32 @@ export default {
         name: 'something',
         customer:'Test Customer',
         items:temp_item
-        });
+      });
       await tempdoc.applyChange()
       this.grandTotal=tempdoc.grandTotal;
       this.netTotal=tempdoc.netTotal;
     },
+
     async createInvoice(){
       if(!this.lineItems.length)
-        alert("No items selcted");
+        alert("No items selected");
       else{
-      var final_item=[];
-      for(var i=0;i<this.lineItems.length;i++)
-      {
-        console.log(this.lineItems[i].item.name+" "+this.lineItems[i].numberOfItems);
-        var temp={
-          item:this.lineItems[i].item.name,
-          quantity:this.lineItems[i].numberOfItems
-        };
-        final_item.push(temp);
-      }
-      frappe.insert({
-            doctype:'Invoice',
-            customer: this.value,
-            items:final_item
-        });
-      alert("Invoice added");
+        var final_item=[];
+        for(var i = 0; i < this.lineItems.length; i++){
+          console.log(this.lineItems[i].item.name+" "+this.lineItems[i].numberOfItems);
+          var temp={
+            item:this.lineItems[i].item.name,
+            quantity:this.lineItems[i].numberOfItems
+          };
+          final_item.push(temp);
         }
+        frappe.insert({
+          doctype:'Invoice',
+          customer: this.value,
+          items:final_item
+        });
+        alert("Invoice added");
+      }
     }
   }
 };
