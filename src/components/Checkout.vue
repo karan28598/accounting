@@ -16,8 +16,8 @@ export default {
       // is also available.
       this.$checkout.open({
         name: 'Shut up and take my money!',
-        currency: 'USD',
-        amount: 99999,
+        currency: 'INR',
+        amount: 10000,
         token: (token) => {
           // Send the token to your server
           // for payment or subscription handling,
