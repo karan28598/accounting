@@ -1,31 +1,31 @@
 <template>
+<!-- Button -->
 <div class="col-md-6">
-  <div class="list-group">
-        <button class="list-group-item item" @click="checkout()">
-            <strong>Make Payment</strong>
+    <div class="list-group">
+        <button type="button" class="list-group-item item" data-toggle="modal" data-target="#exampleModal">
+            <strong>Checkout</strong>
         </button>
     </div>
 </div>
-</template>
 
-<script>
-export default {
-  methods: {
-    checkout() {
-      // this.$checkout.close() 
-      // is also available.
-      this.$checkout.open({
-        name: 'Shut up and take my money!',
-        currency: 'INR',
-        amount: 10000,
-        token: (token) => {
-          // Send the token to your server
-          // for payment or subscription handling,
-          // or do whatever you want with it
-          // I don't really care. 
-        } 
-      });
-    }
-  }
-}
-</script>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
